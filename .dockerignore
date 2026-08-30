@@ -1,0 +1,23 @@
+# dependencies
+node_modules
+
+# next.js
+.next
+out
+
+# env files (passed in via build-args / compose environment instead)
+.env
+.env*.local
+
+# git
+.git
+.gitignore
+
+# ide
+.vscode
+.idea
+
+# misc
+*.md
+.DS_Store
+npm-debug.log*
