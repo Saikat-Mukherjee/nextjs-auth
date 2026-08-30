@@ -1,19 +1,20 @@
 import mongoose from "mongoose";
 
-export async function connect(){
-    try {
-        mongoose.connect(process.env.MONGO_URI!);
-        const connection = mongoose.connection;
-        connection.on('connected',()=>{
-            console.log('Connected to MongoDB');
-        })
+export async function connect() {
+    if (mongoose.connection.readyState !== 0) {
+        return;
+    }
 
-        connection.on("error",(err)=> {
-            console.error(err);
-            process.exit();
-        })
+    const uri = process.env.MONGO_URI;
+    if (!uri) {
+        console.warn("MONGO_URI is not set; skipping MongoDB connection");
+        return;
+    }
+
+    try {
+        await mongoose.connect(uri);
+        console.log("Connected to MongoDB");
     } catch (error) {
-        console.log("Something Went Wrong");
-        console.log(error);
+        console.error("Error connecting to MongoDB:", error);
     }
 }
